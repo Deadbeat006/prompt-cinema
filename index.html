@@ -647,6 +647,44 @@ h2 em{font-size:1.08em}
 @media(max-width:860px){.cogrid{grid-template-columns:1fr}.steps .lbl2{display:none}.methods{grid-template-columns:1fr}}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}}
+
+/* ===== series shelf ===== */
+#series h2{margin:0 auto;text-align:center}
+#series .wrap{text-align:center}
+.shelfsub{max-width:560px;margin:18px auto 0;color:var(--muted);font-size:16px}
+.shelf{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;margin-top:54px;text-align:left}
+.bk2{display:grid;grid-template-columns:minmax(120px,38%) 1fr;gap:26px;padding:28px;border-radius:24px;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.bk2:hover{transform:translateY(-6px)}
+.bkcov{perspective:900px;align-self:start}
+.bkcov img{width:100%;display:block;border-radius:3px 7px 7px 3px;transform:rotateY(-14deg) rotateX(4deg);box-shadow:18px 24px 40px rgba(0,0,0,.35);transition:transform .5s}
+.bk2:hover .bkcov img{transform:rotateY(-4deg) rotateX(2deg)}
+.vol{font:600 10px var(--mono);letter-spacing:.2em}
+.bk2 h3{font:400 34px/1 var(--serif);margin:10px 0 12px}
+.bk2 p{font-size:14.5px;line-height:1.5}
+.bk2 ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px}
+.bk2 li{font-size:13.5px;display:flex;gap:9px}
+.bk2 li::before{content:"";flex:0 0 7px;height:7px;margin-top:7px;border-radius:2px}
+.bkbuy{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px;flex-wrap:wrap}
+.bkp b{font:400 46px/1 var(--display)}
+.bkp s{font:500 13px var(--mono);margin-left:8px;opacity:.6}
+.bk2 .btn{box-shadow:none;background-size:100% 100%}
+.bk2.of{background:#EEE6D8;color:#2E2722}
+.bk2.of h3{color:#1B1714;font-family:Georgia,serif;font-weight:900}
+.bk2.of h3 em{color:#8A1C1C;font-weight:400}
+.bk2.of .vol{color:#8A1C1C}
+.bk2.of li::before{background:#8A1C1C}
+.bk2.of .bkp b{color:#1B1714}
+.bk2.of .btn{background:#8A1C1C;color:#fff}
+.bk2.d3{background-color:#F3F6F7;background-image:linear-gradient(#DCE8EE 1px,transparent 1px),linear-gradient(90deg,#DCE8EE 1px,transparent 1px);background-size:22px 22px;color:#24394A}
+.bk2.d3 h3{color:#0E2233;font:700 34px/1 var(--body);letter-spacing:-.02em}
+.bk2.d3 h3 em{color:#FF6A13;font-style:normal}
+.bk2.d3 .vol{color:#1B9CC4}
+.bk2.d3 li::before{background:#FF6A13;transform:rotate(45deg)}
+.bk2.d3 .bkp b{color:#0E2233}
+.bk2.d3 .btn{background:#0E2233;color:#fff}
+.mini img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@media(max-width:980px){.shelf{grid-template-columns:1fr}}
+@media(max-width:560px){.bk2{grid-template-columns:1fr;padding:22px}.bkcov{max-width:190px}.bk2 h3{font-size:30px}}
 </style>
 </head>
 <body>
@@ -660,7 +698,7 @@ h2 em{font-size:1.08em}
 <nav>
   <a href="#hero" class="logo"><img src="brand/mark-nav.png" alt="" width="30" height="30" style="display:block"><em style="font-style:normal">PROMPT/<span>CINEMA</span></em></a>
   <div class="navlinks">
-    <a href="#lab">The Lab</a><a href="#system">System Prompts</a><a href="#stack">13 Layers</a><a href="#inside">Inside</a><a href="#author">Author</a>
+    <a href="#lab">The Lab</a><a href="#system">System Prompts</a><a href="#stack">13 Layers</a><a href="#inside">Inside</a><a href="#series">Series</a><a href="#author">Author</a>
   </div>
   <div class="navr">
     <button class="snd" id="snd" data-c="SOUND">SOUND OFF</button>
@@ -968,6 +1006,37 @@ h2 em{font-size:1.08em}
   </div>
 </section>
 
+<!-- SERIES SHELF -->
+<section class="blk" id="series">
+  <div class="wrap">
+    <div class="slate reveal"><b>SC 11</b> The sequels</div>
+    <h2 class="reveal">Two more books.<br>Two new <em>skills.</em></h2>
+    <p class="shelfsub reveal">Same series, different craft. Each book has its own design, its own focus and its own price.</p>
+    <div class="shelf">
+      <article class="bk2 of reveal">
+        <div class="bkcov"><img src="books/oneface-cover.jpg" alt="One Face, Every Shot ebook cover" loading="lazy"></div>
+        <div class="bkinfo">
+          <span class="vol">VOL. 02 · 42 PAGES · PDF</span>
+          <h3>One Face, <em>Every Shot.</em></h3>
+          <p>Keep the same AI character across every image and video, from the first reference to a full AI influencer page.</p>
+          <ul><li>The six-image reference kit</li><li>Character LoRAs and Higgsfield Soul ID</li><li>Kling Elements and Seedance references</li><li>Two characters in one frame, no blending</li><li>AI influencer disclosure rules in India</li></ul>
+          <div class="bkbuy"><div class="bkp"><b data-p="oneface">₹399</b><s data-w="oneface">₹999</s></div><a href="#checkout/oneface" class="btn sbuy" data-prod="oneface" data-c="BUY">Get Vol. 02 →</a></div>
+        </div>
+      </article>
+      <article class="bk2 d3 reveal">
+        <div class="bkcov"><img src="books/direct3d-cover.jpg" alt="Direct With 3D ebook cover" loading="lazy"></div>
+        <div class="bkinfo">
+          <span class="vol">VOL. 03 · 42 PAGES · PDF</span>
+          <h3>Direct <em>with 3D</em></h3>
+          <p>Block the shot in Blender, animate the performer, fly the camera, then let the video model paint every frame over your motion.</p>
+          <ul><li>Blender for exactly this workflow, nothing more</li><li>Phone mocap and tracked camera moves</li><li>3D renders and control passes</li><li>Seedance, Kling Motion Control, Wan and LTX</li><li>Six cameras, one scene, one sequence</li></ul>
+          <div class="bkbuy"><div class="bkp"><b data-p="direct3d">₹599</b><s data-w="direct3d">₹1,499</s></div><a href="#checkout/direct3d" class="btn sbuy" data-prod="direct3d" data-c="BUY">Get Vol. 03 →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="blk" id="faq">
   <div class="wrap">
@@ -998,17 +1067,17 @@ h2 em{font-size:1.08em}
       <div class="copanel">
         <h3>YOUR ORDER</h3>
         <div class="prod">
-          <div class="mini"><div class="bcimg"></div><div class="bcgrade"></div><b>Prompt<span>Cinema</span></b></div>
-          <div><h4>Prompt Cinema</h4><p>EBOOK · PDF · BY @NOTAKASH.GPT</p></div>
+          <div class="mini" id="coMini"><div class="bcimg"></div><div class="bcgrade"></div><b>Prompt<span>Cinema</span></b></div>
+          <div><h4 id="coTitle">Prompt Cinema</h4><p id="coSub">EBOOK · PDF · BY @NOTAKASH.GPT</p></div>
         </div>
-        <ul class="coinc">
+        <ul class="coinc" id="coInc">
           <li>13 chapters: system prompts, image and video prompting, 3D control</li>
           <li>Six system prompt templates, ready to paste</li>
           <li>The Prompt Vault: ready prompts for ads, action, food and anime</li>
           <li>The 13-Layer cheat sheet and the Slop Fixer table</li>
         </ul>
         <div class="lines">
-          <div><span>Prompt Cinema ebook</span><span id="coWas">₹1,499</span></div>
+          <div><span id="coLine">Prompt Cinema ebook</span><span id="coWas">₹1,499</span></div>
           <div class="save"><span>Launch discount</span><span id="coSave">−₹1,000</span></div>
           <div class="tot"><span>TOTAL</span><b id="coTot">₹499</b></div>
         </div>
@@ -1028,10 +1097,10 @@ h2 em{font-size:1.08em}
 
     <div class="ty" id="ty">
       <div class="big">That's a <em>wrap.</em></div>
-      <p>Thanks for buying Prompt Cinema. Your ebook is on its way.</p>
+      <p id="tyMsg">Thanks for buying Prompt Cinema. Your ebook is on its way.</p>
       <div class="tysteps">
         <div><b>01</b><span>Check your inbox for the receipt and the download link. Look in spam or promotions if it hasn't arrived in five minutes.</span></div>
-        <div><b>02</b><span>Download the PDF and start with Chapter 02. Build your first system prompt today.</span></div>
+        <div><b>02</b><span id="tyStep">Download the PDF and start with Chapter 02. Build your first system prompt today.</span></div>
         <div><b>03</b><span>Make something and tag <a href="https://www.instagram.com/notakash.gpt/" target="_blank" rel="noopener" style="color:var(--sun)">@notakash.gpt</a>. No email after 30 minutes? Send a DM with your payment ID.</span></div>
       </div>
       <div style="margin-top:30px"><button class="btn ghost" id="tyBack" data-c="BACK">← Back to the site</button></div>
@@ -1049,7 +1118,24 @@ const CONFIG = {
   // Gumroad, Lemon Squeezy or PayPal link for USD buyers abroad
   payUsd: "",
   checkoutUrl: "",
-  prices: { inr:{sym:"₹", now:"499", was:"₹1,499", off:"SAVE 67%"}, usd:{sym:"$", now:"7", was:"$19", off:"SAVE 63%"} }
+  prices: { inr:{sym:"₹", now:"499", was:"₹1,499", off:"SAVE 67%"}, usd:{sym:"$", now:"7", was:"$19", off:"SAVE 63%"} },
+  // The other books in the series. Paste each book's own payment links here.
+  books: {
+    oneface: {
+      payInr: "", payUsd: "",
+      title: "One Face, Every Shot", sub: "EBOOK · PDF · VOL. 02", cover: "books/oneface-cover.jpg",
+      prices: { inr:{sym:"₹", now:"399", was:"₹999", off:"SAVE 60%"}, usd:{sym:"$", now:"5", was:"$12", off:"SAVE 58%"} },
+      incl: ["9 chapters: drift, character design, reference kits, LoRAs, video, two-character shots, AI influencers", "A character bible template and a Casting Director system prompt", "Eight paste-ready consistency prompts", "The 10-second drift checklist"],
+      next: "Download the PDF and start with Chapter 03. Build your six-image reference kit this week."
+    },
+    direct3d: {
+      payInr: "", payUsd: "",
+      title: "Direct With 3D", sub: "EBOOK · PDF · VOL. 03", cover: "books/direct3d-cover.jpg",
+      prices: { inr:{sym:"₹", now:"599", was:"₹1,499", off:"SAVE 60%"}, usd:{sym:"$", now:"8", was:"$19", off:"SAVE 58%"} },
+      incl: ["10 chapters: Blender blockouts, mocap, camera moves, 3D renders, hosted and local models, sequences", "A one-page Blender cheat sheet", "Six paste-ready 3D-to-video prompts", "The 3D shot checklist"],
+      next: "Download the PDF, install Blender and start with Chapter 02. Block your first shot today."
+    }
+  }
 };
 
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -1449,12 +1535,18 @@ if(fine){ $$('.btn,.lever,.snd').forEach(b=>{ b.addEventListener('pointermove',e
 })();
 
 /* ===== CHECKOUT FLOW ===== */
-let coCur='inr', coMeth=0;
+let coCur='inr', coMeth=0, coProd='pc';
+const PC_MINI=document.getElementById('coMini').innerHTML, PC_INC=document.getElementById('coInc').innerHTML, PC_NEXT=document.getElementById('tyStep').textContent;
+function PROD(){ return coProd==='pc' ? {payInr:CONFIG.payInr,payUsd:CONFIG.payUsd,title:'Prompt Cinema',sub:'EBOOK · PDF · BY @NOTAKASH.GPT',prices:CONFIG.prices} : CONFIG.books[coProd]; }
 const METHODS={inr:[['UPI','GPay, PhonePe, Paytm','UPI'],['Card','Visa, Mastercard, RuPay','▭'],['Netbanking','All major banks','₹'],['Wallet','Paytm, Mobikwik','◎']],
                usd:[['Card','Visa, Mastercard, Amex','▭'],['PayPal','Pay with your PayPal','P'],['Apple Pay','On supported devices',''],['Google Pay','On supported devices','G']]};
-function payUrl(){ return coCur==='inr' ? (CONFIG.payInr||CONFIG.checkoutUrl) : (CONFIG.payUsd||CONFIG.checkoutUrl); }
+function payUrl(){ const P=PROD(); return coCur==='inr' ? (P.payInr||CONFIG.checkoutUrl) : (P.payUsd||CONFIG.checkoutUrl); }
 function renderCo(){
-  const p=CONFIG.prices[coCur], sym=p.sym, now=+p.now, was=+p.was.replace(/[^\d.]/g,'');
+  const P=PROD(), p=P.prices[coCur], sym=p.sym, now=+p.now, was=+p.was.replace(/[^\d.]/g,'');
+  $('#coTitle').textContent=P.title; $('#coSub').textContent=P.sub; $('#coLine').textContent=P.title+' ebook';
+  $('#coMini').innerHTML = coProd==='pc' ? PC_MINI : `<img src="${P.cover}" alt="">`;
+  $('#coInc').innerHTML = coProd==='pc' ? PC_INC : P.incl.map(x=>`<li>${x}</li>`).join('');
+  $('#tyMsg').textContent='Thanks for buying '+P.title+'. Your ebook is on its way.'; $('#tyStep').textContent = coProd==='pc' ? PC_NEXT : P.next;
   $('#coWas').textContent=p.was; $('#coSave').textContent='−'+sym+(was-now).toLocaleString('en-IN'); $('#coTot').textContent=sym+now; $('#payAmt').textContent=sym+now;
   $('#methods').innerHTML=METHODS[coCur].map((m,i)=>`<button class="meth ${i===coMeth?'on':''}" data-i="${i}" data-c="SELECT"><span class="ic">${m[2]}</span><div><b>${m[0]}</b><span>${m[1]}</span></div><span class="rd"></span></button>`).join('');
   $$('#methods .meth').forEach(b=>b.addEventListener('click',()=>{coMeth=+b.dataset.i;blip(700,.04);renderCo()}));
@@ -1465,14 +1557,17 @@ function renderCo(){
 $$('#cur2 button').forEach(b=>b.addEventListener('click',()=>{ $$('#cur2 button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); coCur=b.dataset.cur; coMeth=0; $('#cowarn').classList.remove('show'); blip(600,.05); renderCo(); }));
 function setStep(n){ $$('#steps span').forEach(s=>s.classList.toggle('on',+s.dataset.s<=n)); }
 function showView(v){ const co=$('#co'); co.classList.add('show'); document.body.classList.add('locked'); $('#coform').style.display=v==='ty'?'none':''; $('#ty').classList.toggle('show',v==='ty'); setStep(v==='ty'?3:1); co.scrollTop=0; if(v==='ty') burstCenter(); }
-function openCheckout(){ const sel=document.querySelector('#cur .on'); if(sel){coCur=sel.dataset.cur} $$('#cur2 button').forEach(x=>x.classList.toggle('on',x.dataset.cur===coCur)); renderCo(); showView('co'); if(location.hash!=='#checkout') history.replaceState(null,'','#checkout'); }
-function closeCheckout(){ $('#co').classList.remove('show'); document.body.classList.remove('locked'); if(location.hash==='#checkout'||location.hash==='#thank-you') history.replaceState(null,'',' '); }
+function openCheckout(prod){ coProd=(prod&&CONFIG.books[prod])?prod:'pc'; coMeth=0; $('#cowarn').classList.remove('show'); const sel=document.querySelector('#cur .on'); if(sel){coCur=sel.dataset.cur} $$('#cur2 button').forEach(x=>x.classList.toggle('on',x.dataset.cur===coCur)); renderCo(); showView('co'); const h='#checkout'+(coProd==='pc'?'':'/'+coProd); if(location.hash!==h) history.replaceState(null,'',h); }
+function closeCheckout(){ $('#co').classList.remove('show'); document.body.classList.remove('locked'); if(location.hash.startsWith('#checkout')||location.hash.startsWith('#thank-you')) history.replaceState(null,'',' '); }
 $('#coclose').addEventListener('click',closeCheckout); $('#tyBack').addEventListener('click',closeCheckout);
 addEventListener('keydown',e=>{ if(e.key==='Escape' && $('#co').classList.contains('show')) closeCheckout(); });
 $('#paybtn').addEventListener('click',e=>{ if(!payUrl()){ e.preventDefault(); $('#cowarn').classList.add('show'); blip(160,.15,'sawtooth',.05); return; } setStep(2); });
-$('#toTy').addEventListener('click',e=>{ e.preventDefault(); history.replaceState(null,'','#thank-you'); showView('ty'); });
+$('#toTy').addEventListener('click',e=>{ e.preventDefault(); history.replaceState(null,'','#thank-you'+(coProd==='pc'?'':'/'+coProd)); showView('ty'); });
 function burstCenter(){ setTimeout(()=>window.__burst&&window.__burst(innerWidth/2,innerHeight*.3),250); }
-function route(){ if(location.hash==='#checkout') openCheckout(); else if(location.hash==='#thank-you'){ renderCo(); showView('ty'); } }
+function route(){ const [h,prod]=location.hash.split('/'); if(h==='#checkout') openCheckout(prod); else if(h==='#thank-you'){ coProd=(prod&&CONFIG.books[prod])?prod:'pc'; renderCo(); showView('ty'); } }
+$$('.sbuy').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); blip(520,.1,'sawtooth',.05); openCheckout(b.dataset.prod); }));
+function renderShelf(cur){ for(const k in CONFIG.books){ const p=CONFIG.books[k].prices[cur]; $$(`[data-p="${k}"]`).forEach(e=>e.textContent=p.sym+p.now); $$(`[data-w="${k}"]`).forEach(e=>e.textContent=p.was); } }
+$$('#cur button').forEach(b=>b.addEventListener('click',()=>renderShelf(b.dataset.cur))); renderShelf('inr');
 addEventListener('hashchange',route); setTimeout(route,50);
 </script>
 </body>
