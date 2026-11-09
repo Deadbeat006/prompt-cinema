@@ -1112,26 +1112,29 @@ h2 em{font-size:1.08em}
 
 <script>
 /* ===== CONFIG: paste your payment link (Razorpay, Gumroad, Topmate, Instamojo) ===== */
+const WARN_SOON = 'Checkout opens in a few days. Follow <a href="https://instagram.com/notakash.gpt" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">@notakash.gpt</a> on Instagram or email notakash.gpt@gmail.com and you\'ll get the link the day it goes live.';
 const CONFIG = {
   // Set to true once the payment gateway is approved. While false, buy buttons show "opening soon".
-  payLive: false,
+  payLive: true,
+  // Set to true once Instamojo approves the account. While false, rupee buyers are pointed to the USD checkout.
+  inrLive: false,
   // INR payment link (UPI, cards, netbanking, wallets)
   payInr: "https://promptcinema.myinstamojo.com/product/prompt-cinema-the-ai-filmmaker-s-prompt-book",
   // Gumroad, Lemon Squeezy or PayPal link for USD buyers abroad
-  payUsd: "",
+  payUsd: "https://notakash.gumroad.com/l/prompt-cinema",
   checkoutUrl: "",
   prices: { inr:{sym:"₹", now:"499", was:"₹1,499", off:"SAVE 67%"}, usd:{sym:"$", now:"7", was:"$19", off:"SAVE 63%"} },
   // The other books in the series. Paste each book's own payment links here.
   books: {
     oneface: {
-      payInr: "https://promptcinema.myinstamojo.com/product/one-face-every-shot-consistent-ai-characters", payUsd: "",
+      payInr: "https://promptcinema.myinstamojo.com/product/one-face-every-shot-consistent-ai-characters", payUsd: "https://notakash.gumroad.com/l/one-face-every-shot",
       title: "One Face, Every Shot", sub: "EBOOK · PDF · VOL. 02", cover: "books/oneface-cover.jpg",
       prices: { inr:{sym:"₹", now:"399", was:"₹999", off:"SAVE 60%"}, usd:{sym:"$", now:"5", was:"$12", off:"SAVE 58%"} },
       incl: ["9 chapters: drift, character design, reference kits, LoRAs, video, two-character shots, AI influencers", "A character bible template and a Casting Director system prompt", "Eight paste-ready consistency prompts", "The 10-second drift checklist"],
       next: "Download the PDF and start with Chapter 03. Build your six-image reference kit this week."
     },
     direct3d: {
-      payInr: "https://promptcinema.myinstamojo.com/product/direct-with-3d-blender-to-ai-video-vol-03", payUsd: "",
+      payInr: "https://promptcinema.myinstamojo.com/product/direct-with-3d-blender-to-ai-video-vol-03", payUsd: "https://notakash.gumroad.com/l/direct-with-3d",
       title: "Direct With 3D", sub: "EBOOK · PDF · VOL. 03", cover: "books/direct3d-cover.jpg",
       prices: { inr:{sym:"₹", now:"599", was:"₹1,499", off:"SAVE 60%"}, usd:{sym:"$", now:"8", was:"$19", off:"SAVE 58%"} },
       incl: ["10 chapters: Blender blockouts, mocap, camera moves, 3D renders, hosted and local models, sequences", "A one-page Blender cheat sheet", "Six paste-ready 3D-to-video prompts", "The 3D shot checklist"],
@@ -1542,7 +1545,7 @@ const PC_MINI=document.getElementById('coMini').innerHTML, PC_INC=document.getEl
 function PROD(){ return coProd==='pc' ? {payInr:CONFIG.payInr,payUsd:CONFIG.payUsd,title:'Prompt Cinema',sub:'EBOOK · PDF · BY @NOTAKASH.GPT',prices:CONFIG.prices} : CONFIG.books[coProd]; }
 const METHODS={inr:[['UPI','GPay, PhonePe, Paytm','UPI'],['Card','Visa, Mastercard, RuPay','▭'],['Netbanking','All major banks','₹'],['Wallet','Paytm, Mobikwik','◎']],
                usd:[['Card','Visa, Mastercard, Amex','▭'],['PayPal','Pay with your PayPal','P'],['Apple Pay','On supported devices',''],['Google Pay','On supported devices','G']]};
-function payUrl(){ if(!CONFIG.payLive) return ''; const P=PROD(); return coCur==='inr' ? (P.payInr||CONFIG.checkoutUrl) : (P.payUsd||CONFIG.checkoutUrl); }
+function payUrl(){ if(!CONFIG.payLive) return ''; if(coCur==='inr' && !CONFIG.inrLive) return ''; const P=PROD(); return coCur==='inr' ? (P.payInr||CONFIG.checkoutUrl) : (P.payUsd||CONFIG.checkoutUrl); }
 function renderCo(){
   const P=PROD(), p=P.prices[coCur], sym=p.sym, now=+p.now, was=+p.was.replace(/[^\d.]/g,'');
   $('#coTitle').textContent=P.title; $('#coSub').textContent=P.sub; $('#coLine').textContent=P.title+' ebook';
@@ -1555,7 +1558,10 @@ function renderCo(){
   $('#trust').innerHTML=(coCur==='inr'?['UPI','RUPAY','VISA','MASTERCARD','256-BIT SSL']:['VISA','MASTERCARD','AMEX','PAYPAL','256-BIT SSL']).map(t=>`<span>${t}</span>`).join('');
   $('#provNote').textContent = coCur==='inr' ? "Payment runs on a secure payment gateway in a new tab. Your card and UPI details never touch this page. The download link arrives by email right after payment." : "Payment runs on a secure hosted checkout in a new tab. Your card details never touch this page. The download link arrives by email right after payment.";
   const u=payUrl(); const pb=$('#paybtn'); if(u){pb.href=u;pb.target='_blank';} else {pb.href='#checkout';pb.removeAttribute('target');}
-  if(!CONFIG.payLive){ $('#payLbl').textContent='Checkout opens soon'; $('#cowarn').classList.add('show'); }
+  const w=$('#cowarn');
+  if(!CONFIG.payLive){ $('#payLbl').textContent='Checkout opens soon'; w.innerHTML=WARN_SOON; w.classList.add('show'); }
+  else if(coCur==='inr' && !CONFIG.inrLive){ $('#payLbl').textContent='Buy now in USD →'; w.innerHTML='UPI and rupee checkout opens in a few days. You can buy today on the USD checkout: most Indian debit and credit cards with international payments turned on work there.'; w.classList.add('show'); }
+  else { w.classList.remove('show'); }
 }
 $$('#cur2 button').forEach(b=>b.addEventListener('click',()=>{ $$('#cur2 button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); coCur=b.dataset.cur; coMeth=0; $('#cowarn').classList.remove('show'); blip(600,.05); renderCo(); }));
 function setStep(n){ $$('#steps span').forEach(s=>s.classList.toggle('on',+s.dataset.s<=n)); }
@@ -1564,7 +1570,7 @@ function openCheckout(prod){ coProd=(prod&&CONFIG.books[prod])?prod:'pc'; coMeth
 function closeCheckout(){ $('#co').classList.remove('show'); document.body.classList.remove('locked'); if(location.hash.startsWith('#checkout')||location.hash.startsWith('#thank-you')) history.replaceState(null,'',' '); }
 $('#coclose').addEventListener('click',closeCheckout); $('#tyBack').addEventListener('click',closeCheckout);
 addEventListener('keydown',e=>{ if(e.key==='Escape' && $('#co').classList.contains('show')) closeCheckout(); });
-$('#paybtn').addEventListener('click',e=>{ if(!payUrl()){ e.preventDefault(); $('#cowarn').classList.add('show'); blip(160,.15,'sawtooth',.05); return; } setStep(2); });
+$('#paybtn').addEventListener('click',e=>{ if(!payUrl() && CONFIG.payLive && coCur==='inr' && !CONFIG.inrLive){ e.preventDefault(); const ub=document.querySelector('#cur2 button[data-cur=usd]'); if(ub) ub.click(); return; } if(!payUrl()){ e.preventDefault(); $('#cowarn').classList.add('show'); blip(160,.15,'sawtooth',.05); return; } setStep(2); });
 $('#toTy').addEventListener('click',e=>{ e.preventDefault(); history.replaceState(null,'','#thank-you'+(coProd==='pc'?'':'/'+coProd)); showView('ty'); });
 function burstCenter(){ setTimeout(()=>window.__burst&&window.__burst(innerWidth/2,innerHeight*.3),250); }
 function route(){ const hp=new URLSearchParams(location.search); let hash=location.hash.split(/[?&]/)[0]; if(!hash && (hp.get('payment_id')||hp.get('payment_status'))) hash='#thank-you'; const [h,prod]=hash.split('/'); if(h==='#checkout') openCheckout(prod); else if(h==='#thank-you'){ coProd=(prod&&CONFIG.books[prod])?prod:'pc'; renderCo(); showView('ty'); } }
