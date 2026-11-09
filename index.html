@@ -1564,7 +1564,7 @@ addEventListener('keydown',e=>{ if(e.key==='Escape' && $('#co').classList.contai
 $('#paybtn').addEventListener('click',e=>{ if(!payUrl()){ e.preventDefault(); $('#cowarn').classList.add('show'); blip(160,.15,'sawtooth',.05); return; } setStep(2); });
 $('#toTy').addEventListener('click',e=>{ e.preventDefault(); history.replaceState(null,'','#thank-you'+(coProd==='pc'?'':'/'+coProd)); showView('ty'); });
 function burstCenter(){ setTimeout(()=>window.__burst&&window.__burst(innerWidth/2,innerHeight*.3),250); }
-function route(){ const [h,prod]=location.hash.split('/'); if(h==='#checkout') openCheckout(prod); else if(h==='#thank-you'){ coProd=(prod&&CONFIG.books[prod])?prod:'pc'; renderCo(); showView('ty'); } }
+function route(){ const hp=new URLSearchParams(location.search); let hash=location.hash.split(/[?&]/)[0]; if(!hash && (hp.get('payment_id')||hp.get('payment_status'))) hash='#thank-you'; const [h,prod]=hash.split('/'); if(h==='#checkout') openCheckout(prod); else if(h==='#thank-you'){ coProd=(prod&&CONFIG.books[prod])?prod:'pc'; renderCo(); showView('ty'); } }
 $$('.sbuy').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); blip(520,.1,'sawtooth',.05); openCheckout(b.dataset.prod); }));
 function renderShelf(cur){ for(const k in CONFIG.books){ const p=CONFIG.books[k].prices[cur]; $$(`[data-p="${k}"]`).forEach(e=>e.textContent=p.sym+p.now); $$(`[data-w="${k}"]`).forEach(e=>e.textContent=p.was); } }
 $$('#cur button').forEach(b=>b.addEventListener('click',()=>renderShelf(b.dataset.cur))); renderShelf('inr');
