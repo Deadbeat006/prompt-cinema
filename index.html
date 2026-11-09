@@ -42,7 +42,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .cursor span{font:600 9px var(--mono);letter-spacing:.1em;color:#000;opacity:0;transition:opacity .2s}
 .cursor.big{width:76px;height:76px;margin:-38px 0 0 -38px;background:var(--lime);border-color:var(--lime)}
 .cursor.big span{opacity:1}
-.cdot{position:fixed;left:0;top:0;width:4px;height:4px;margin:-2px 0 0 -2px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:10001}
+.cdot{position:fixed;left:0;top:0;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;will-change:transform;background:var(--lime);border-radius:50%;pointer-events:none;z-index:10001}
 @media (pointer:coarse){.cursor,.cdot{display:none}}
 @media (pointer:fine){body,button,a{cursor:none}}
 
@@ -1157,8 +1157,8 @@ $$('.buy').forEach(b=>{ b.href='#checkout'; b.removeAttribute('target'); b.remov
 /* ===== cursor ===== */
 if(fine){
   const c=$('#cursor'),d=$('#cdot'),ct=$('#cursorTxt'); let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
-  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.transform=`translate(${mx}px,${my}px)`});
-  (function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;c.style.transform=`translate(${cx}px,${cy}px)`;requestAnimationFrame(loop)})();
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.transform=`translate3d(${mx}px,${my}px,0)`});
+  (function loop(){cx+=(mx-cx)*.42;cy+=(my-cy)*.42;if(Math.abs(mx-cx)<.3)cx=mx;if(Math.abs(my-cy)<.3)cy=my;c.style.transform=`translate3d(${cx}px,${cy}px,0)`;requestAnimationFrame(loop)})();
   document.addEventListener('mouseover',e=>{const t=e.target.closest('[data-c]'); if(t){c.classList.add('big');ct.textContent=t.dataset.c}else c.classList.remove('big')});
 }
 
