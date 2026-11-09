@@ -1087,8 +1087,8 @@ h2 em{font-size:1.08em}
         <h3>PAYMENT</h3>
         <div class="cur2" id="cur2"><button class="on" data-cur="inr" data-c="₹">₹ INR · India</button><button data-cur="usd" data-c="$">$ USD · Worldwide</button></div>
         <div class="methods" id="methods"></div>
-        <a class="btn paybtn" id="paybtn" href="#checkout" target="_blank" rel="noopener" data-c="PAY">Pay <span id="payAmt">₹499</span> securely →</a>
-        <div class="cowarn" id="cowarn">Checkout is opening soon. Follow @notakash.gpt on Instagram or email notakash.gpt@gmail.com to get the launch link.</div>
+        <a class="btn paybtn" id="paybtn" href="#checkout" target="_blank" rel="noopener" data-c="PAY"><span id="payLbl">Pay <span id="payAmt">₹499</span> securely →</span></a>
+        <div class="cowarn" id="cowarn">Checkout opens in a few days. Follow <a href="https://instagram.com/notakash.gpt" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">@notakash.gpt</a> on Instagram or email notakash.gpt@gmail.com and you'll get the link the day it goes live.</div>
         <div class="paynote"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2de2c8" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span id="provNote">Payment runs on a secure payment gateway in a new tab. Your card and UPI details never touch this page. The download link arrives by email right after payment.</span></div>
         <div class="trust" id="trust"></div>
         <div class="after">Paid already? <a href="#thank-you" id="toTy">Go to your download steps</a></div>
@@ -1113,6 +1113,8 @@ h2 em{font-size:1.08em}
 <script>
 /* ===== CONFIG: paste your payment link (Razorpay, Gumroad, Topmate, Instamojo) ===== */
 const CONFIG = {
+  // Set to true once the payment gateway is approved. While false, buy buttons show "opening soon".
+  payLive: false,
   // INR payment link (UPI, cards, netbanking, wallets)
   payInr: "https://promptcinema.myinstamojo.com/product/prompt-cinema-the-ai-filmmaker-s-prompt-book",
   // Gumroad, Lemon Squeezy or PayPal link for USD buyers abroad
@@ -1540,19 +1542,20 @@ const PC_MINI=document.getElementById('coMini').innerHTML, PC_INC=document.getEl
 function PROD(){ return coProd==='pc' ? {payInr:CONFIG.payInr,payUsd:CONFIG.payUsd,title:'Prompt Cinema',sub:'EBOOK · PDF · BY @NOTAKASH.GPT',prices:CONFIG.prices} : CONFIG.books[coProd]; }
 const METHODS={inr:[['UPI','GPay, PhonePe, Paytm','UPI'],['Card','Visa, Mastercard, RuPay','▭'],['Netbanking','All major banks','₹'],['Wallet','Paytm, Mobikwik','◎']],
                usd:[['Card','Visa, Mastercard, Amex','▭'],['PayPal','Pay with your PayPal','P'],['Apple Pay','On supported devices',''],['Google Pay','On supported devices','G']]};
-function payUrl(){ const P=PROD(); return coCur==='inr' ? (P.payInr||CONFIG.checkoutUrl) : (P.payUsd||CONFIG.checkoutUrl); }
+function payUrl(){ if(!CONFIG.payLive) return ''; const P=PROD(); return coCur==='inr' ? (P.payInr||CONFIG.checkoutUrl) : (P.payUsd||CONFIG.checkoutUrl); }
 function renderCo(){
   const P=PROD(), p=P.prices[coCur], sym=p.sym, now=+p.now, was=+p.was.replace(/[^\d.]/g,'');
   $('#coTitle').textContent=P.title; $('#coSub').textContent=P.sub; $('#coLine').textContent=P.title+' ebook';
   $('#coMini').innerHTML = coProd==='pc' ? PC_MINI : `<img src="${P.cover}" alt="">`;
   $('#coInc').innerHTML = coProd==='pc' ? PC_INC : P.incl.map(x=>`<li>${x}</li>`).join('');
   $('#tyMsg').textContent='Thanks for buying '+P.title+'. Your ebook is on its way.'; $('#tyStep').textContent = coProd==='pc' ? PC_NEXT : P.next;
-  $('#coWas').textContent=p.was; $('#coSave').textContent='−'+sym+(was-now).toLocaleString('en-IN'); $('#coTot').textContent=sym+now; $('#payAmt').textContent=sym+now;
+  $('#coWas').textContent=p.was; $('#coSave').textContent='−'+sym+(was-now).toLocaleString('en-IN'); $('#coTot').textContent=sym+now; $('#payLbl').innerHTML='Pay <span id="payAmt">'+sym+now+'</span> securely →';
   $('#methods').innerHTML=METHODS[coCur].map((m,i)=>`<button class="meth ${i===coMeth?'on':''}" data-i="${i}" data-c="SELECT"><span class="ic">${m[2]}</span><div><b>${m[0]}</b><span>${m[1]}</span></div><span class="rd"></span></button>`).join('');
   $$('#methods .meth').forEach(b=>b.addEventListener('click',()=>{coMeth=+b.dataset.i;blip(700,.04);renderCo()}));
   $('#trust').innerHTML=(coCur==='inr'?['UPI','RUPAY','VISA','MASTERCARD','256-BIT SSL']:['VISA','MASTERCARD','AMEX','PAYPAL','256-BIT SSL']).map(t=>`<span>${t}</span>`).join('');
   $('#provNote').textContent = coCur==='inr' ? "Payment runs on a secure payment gateway in a new tab. Your card and UPI details never touch this page. The download link arrives by email right after payment." : "Payment runs on a secure hosted checkout in a new tab. Your card details never touch this page. The download link arrives by email right after payment.";
   const u=payUrl(); const pb=$('#paybtn'); if(u){pb.href=u;pb.target='_blank';} else {pb.href='#checkout';pb.removeAttribute('target');}
+  if(!CONFIG.payLive){ $('#payLbl').textContent='Checkout opens soon'; $('#cowarn').classList.add('show'); }
 }
 $$('#cur2 button').forEach(b=>b.addEventListener('click',()=>{ $$('#cur2 button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); coCur=b.dataset.cur; coMeth=0; $('#cowarn').classList.remove('show'); blip(600,.05); renderCo(); }));
 function setStep(n){ $$('#steps span').forEach(s=>s.classList.toggle('on',+s.dataset.s<=n)); }
